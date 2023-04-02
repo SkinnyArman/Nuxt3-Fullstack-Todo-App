@@ -1,15 +1,29 @@
 <template>
   <div v-for="todo in data" :key="todo.id">
-    {{ todo.text }}
+    <span @click="toggleCompleted(todo)">
+      Todo: {{ todo.text }} with id : {{ todo.id }}</span
+    >
+    <span>Status: {{ todo.completed ? "Completed" : "Undone" }}</span>
   </div>
 </template>
 
 <script setup lang="ts">
-const { data } = useFetch("/api/todo");
-console.log(data.value);
+const { data, refresh } = useFetch("/api/todo");
 
-// await $fetch("/api/todo", {
-//   method: "POST",
-//   body: { text: "im naive", completed: false },
-// });
+await $fetch("/api/todo", {
+  method: "POST",
+  body: { text: "im naive", completed: false },
+});
+
+const toggleCompleted = async (todo) => {
+  await useFetch(`/api/todo/${todo.id}`, {
+    method: "PUT",
+    onResponseError({ error }) {
+      console.log(error);
+    },
+    onResponse({}) {
+      refresh();
+    },
+  });
+};
 </script>
