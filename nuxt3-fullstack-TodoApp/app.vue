@@ -10,7 +10,7 @@
 <script setup lang="ts">
 const { data, refresh } = useFetch("/api/todo");
 
-await $fetch("/api/todo", {
+await useFetch("/api/todo", {
   method: "POST",
   body: { text: "im naive", completed: false },
 });
