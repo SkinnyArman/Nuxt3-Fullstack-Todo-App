@@ -20,4 +20,5 @@ export default defineEventHandler(async (event) => {
     db.todos.push(newTodo);
     return newTodo;
   }
+
 });
